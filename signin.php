@@ -1,10 +1,11 @@
 <?php
 include("connection.php");
 
-$email=$_Post["email"];
-$pass=$_Post["password"];
+$email=$_POST["email"];
+$pass=$_POST["password"];
 
 $query = $mysqli->prepare('select * from users where email=?');
+$query->bind_param('s', $email);
 $query->execute();
 
 $query->store_result();
@@ -19,7 +20,6 @@ if ($num_rows == 0) {
         $response['status'] = 'logged in';
         $response['user_id'] = $id;
         $response['first_name'] = $first_name;
-        $response['username'] = $username;
     } else {
         $response['status'] = "wrong password";
     }
